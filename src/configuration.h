@@ -20,8 +20,6 @@ namespace configuration
 	const std::unordered_map<DWORD, std::wstring> key_codes
 	{
 		{ VK_RETURN, L"\n" },
-		{ VK_SPACE, L" " },
-		{ VK_TAB, L"	" },
 		{ VK_ESCAPE, L"[ESCAPE]" },
 		{ VK_BACK, L"[BACKSPACE]" }
 	};
