@@ -17,9 +17,6 @@ testing 123 123[CTRL + A][BACKSPACE]
 
 é â ê î ô û ë ï ü
 ```
-## Builds
-This project has prebuilt binaries available here: https://github.com/vim2meta/Keylogger/releases.
-
 ## Configuration
 You may configure the name of the logging file aswell as what should be logged for each [virtual-key code](https://msdn.microsoft.com/en-us/library/windows/desktop/dd375731(v=vs.85).aspx) by changing the `configuration.h` file.
 ```cpp
@@ -36,4 +33,4 @@ const std::unordered_map<DWORD, std::wstring> key_codes
 ```
 
 ## Compiling
-Visual Studio 2017 is required to load the solution. However, the project may be compiled by any C++ 11 compiler. The required Windows libraries are `User32.lib` and `Advapi32.lib`.
+Visual Studio 2017 is required to load the solution. However, the project may be compiled by any C++ 11 compiler. The required Windows libraries are `User32.lib` and `Advapi32.lib`. If you do not wish to build the project yourself, you may use the prebuilt binaries available here: https://github.com/vim2meta/Keylogger/releases.
