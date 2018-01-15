@@ -1,6 +1,6 @@
 #pragma once
 
-namespace registry 
+namespace registry
 {
-	void add_to_startup() noexcept;
+    void add_to_startup() noexcept;
 }

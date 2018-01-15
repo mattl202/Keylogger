@@ -17,6 +17,7 @@ testing 123 123[CTRL + A][BACKSPACE]
 
 é â ê î ô û ë ï ü
 ```
+
 ## Configuration
 You may configure the name of the logging file aswell as what should be logged for each [virtual-key code](https://msdn.microsoft.com/en-us/library/windows/desktop/dd375731(v=vs.85).aspx) by changing the `configuration.h` file.
 ```cpp
